@@ -1,19 +1,22 @@
 package com.liv.controlefinanceiro.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class TipoGasto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,6 +24,12 @@ public class TipoGasto implements Serializable {
 	
 	private String nome;
 	private Boolean obrigatorio;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="tipoGasto")
+	private List<GastoMes> gastosmes = new ArrayList<GastoMes>();
+	
+
 	
 	public TipoGasto() {
 		
@@ -57,6 +66,13 @@ public class TipoGasto implements Serializable {
 		this.obrigatorio = obrigatorio;
 	}
 
+	public List<GastoMes> getGastosmes() {
+		return gastosmes;
+	}
+
+	public void setGastosmes(List<GastoMes> gastosmes) {
+		this.gastosmes = gastosmes;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -82,5 +98,7 @@ public class TipoGasto implements Serializable {
 			return false;
 		return true;
 	}
+
+
 	
 }
