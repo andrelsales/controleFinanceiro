@@ -21,5 +21,11 @@ public class TipoGastoService {
 		return obj.orElseThrow(() -> new CfObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + TipoGasto.class.getName()));
 	}
+
+	public TipoGasto insert(TipoGasto tipo) {
+		
+		tipo.setId(null);
+		return tipoGastoRepository.save(tipo);
+	}
 }
 
