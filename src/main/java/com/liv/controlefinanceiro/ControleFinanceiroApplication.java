@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.liv.controlefinanceiro.domain.GastoMes;
 import com.liv.controlefinanceiro.domain.TipoGasto;
+import com.liv.controlefinanceiro.domain.enums.TipoPagamentoEnum;
 import com.liv.controlefinanceiro.repository.GastoMesRepository;
 import com.liv.controlefinanceiro.repository.TipoGastoRepository;
 
@@ -34,14 +35,15 @@ public class ControleFinanceiroApplication implements CommandLineRunner {
 		TipoGasto tipo3 = new TipoGasto(null,"diversão",false);
 		
 		
-		GastoMes gt1 = new GastoMes(null,"financiamento", 10,2018,1600, 1, 1, 1, tipo1);
-		GastoMes gt2 = new GastoMes(null,"condominio",10,2018,400,1,1,1, tipo1);
-		GastoMes gt3 = new GastoMes(null,"luz",10,2018,200,1,1,1, tipo1);
-		GastoMes gt4 = new GastoMes(null,"supermercado",10,2018,400,1,1,1, tipo2);
 		
-		GastoMes gt5 = new GastoMes(null,"tenis",10,2018,100,1,1,3, tipo3);
-		GastoMes gt6 = new GastoMes(null,"tenis",11,2018,100,1,2,3, tipo3);
-		GastoMes gt7 = new GastoMes(null,"tenis",12,2018,100,1,3,3, tipo3);
+		GastoMes gt1 = new GastoMes(null,"financiamento", 10,2018,1600, TipoPagamentoEnum.DEBITO, 1, 1, tipo1);
+		GastoMes gt2 = new GastoMes(null,"condominio",10,2018,400,TipoPagamentoEnum.DEBITO,1,1, tipo1);
+		GastoMes gt3 = new GastoMes(null,"luz",10,2018,200,TipoPagamentoEnum.DINHEIRO,1,1, tipo1);
+		GastoMes gt4 = new GastoMes(null,"supermercado",10,2018,400,TipoPagamentoEnum.DEBITO,1,1, tipo2);
+		
+		GastoMes gt5 = new GastoMes(null,"tenis",10,2018,100,TipoPagamentoEnum.CARTAO_PARCELADO,1,3, tipo3);
+		GastoMes gt6 = new GastoMes(null,"tenis",11,2018,100,TipoPagamentoEnum.CARTAO_PARCELADO,2,3, tipo3);
+		GastoMes gt7 = new GastoMes(null,"tenis",12,2018,100,TipoPagamentoEnum.CARTAO_PARCELADO,3,3, tipo3);
 		
 				
 		tipoGastoRepository.saveAll(Arrays.asList(tipo1,tipo2,tipo3));

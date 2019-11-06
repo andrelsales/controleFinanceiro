@@ -1,6 +1,6 @@
 package com.liv.controlefinanceiro.domain.enums;
 
-public enum TipoPagamento {
+public enum TipoPagamentoEnum {
 	
 	DINHEIRO(1,"Dinheiro"),
 	DEBITO(2,"Debito"),
@@ -10,7 +10,7 @@ public enum TipoPagamento {
 	private int cod;
 	private String descricao;
 	
-	private TipoPagamento(int cod, String descricao) {
+	private TipoPagamentoEnum(int cod, String descricao) {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
@@ -23,13 +23,13 @@ public enum TipoPagamento {
 		return descricao;
 	}
 	
-	public static TipoPagamento toEnum(Integer cod) {
+	public static TipoPagamentoEnum toEnum(Integer cod) {
 		
 		if (cod == null) {
 			return null;
 		}
 		
-		for (TipoPagamento x : TipoPagamento.values()) {
+		for (TipoPagamentoEnum x : TipoPagamentoEnum.values()) {
 			if (cod.equals(x.getCod())) {
 				return x;
 			}

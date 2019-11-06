@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.liv.controlefinanceiro.domain.enums.TipoPagamentoEnum;
+
 @Entity
 public class GastoMes implements Serializable {
 
@@ -25,6 +28,7 @@ public class GastoMes implements Serializable {
 	private Integer parcela;
 	private Integer totalParecela;
 	
+//	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="tipogasto_id")
 	private TipoGasto tipoGasto;
@@ -32,7 +36,7 @@ public class GastoMes implements Serializable {
 	public GastoMes() {		
 	}
 
-	public GastoMes(Integer id, String nome, Integer mes, Integer ano, double valor, Integer tipoPagamento, Integer parcela,
+	public GastoMes(Integer id, String nome, Integer mes, Integer ano, double valor, TipoPagamentoEnum tipoPagamento, Integer parcela,
 			Integer totalParecela, TipoGasto tipoGasto) {
 		super();
 		this.id = id;
@@ -40,7 +44,7 @@ public class GastoMes implements Serializable {
 		this.mes = mes;
 		this.ano = ano;
 		this.valor = valor;
-		this.tipoPagamento = tipoPagamento;
+		this.tipoPagamento = tipoPagamento.getCod();
 		this.parcela = parcela;
 		this.totalParecela = totalParecela;
 		this.tipoGasto = tipoGasto;
@@ -78,12 +82,12 @@ public class GastoMes implements Serializable {
 		this.valor = valor;
 	}
 
-	public Integer getTipoPagamento() {
-		return tipoPagamento;
+	public TipoPagamentoEnum getTipoPagamento() {
+		return TipoPagamentoEnum.toEnum(tipoPagamento);
 	}
 
-	public void setTipoPagamento(Integer tipoPagamento) {
-		this.tipoPagamento = tipoPagamento;
+	public void setTipoPagamento(TipoPagamentoEnum tipoPagamento) {
+		this.tipoPagamento = tipoPagamento.getCod();
 	}
 
 	public Integer getParcela() {

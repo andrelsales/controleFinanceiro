@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class TipoGasto implements Serializable {
@@ -25,7 +26,7 @@ public class TipoGasto implements Serializable {
 	private String nome;
 	private Boolean obrigatorio;
 	
-	@JsonIgnore
+	@JsonIgnore	
 	@OneToMany(mappedBy="tipoGasto")
 	private List<GastoMes> gastosmes = new ArrayList<GastoMes>();
 	

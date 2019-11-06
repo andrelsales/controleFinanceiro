@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.liv.controlefinanceiro.domain.TipoGasto;
 import com.liv.controlefinanceiro.service.TipoGastoService;
+import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/tipogasto")
@@ -21,11 +22,15 @@ public class TipoGastoResource {
 	TipoGastoService  tipoGastoService;
 
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<?> find(@PathVariable Integer id) throws CfObjectNotFoundException {
 		
 		TipoGasto tipoGasto = tipoGastoService.search(id);
 			
 		return ResponseEntity.ok().body(tipoGasto);
+		
+		
+	
+
 		
 //		TipoGasto tipo1 = new TipoGasto(1,"finaciamento",true);
 //		TipoGasto tipo2 = new TipoGasto(1,"escola",true);
