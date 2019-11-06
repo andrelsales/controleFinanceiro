@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.liv.controlefinanceiro.domain.TipoGasto;
-import com.liv.controlefinanceiro.service.TipoGastoService;
+import com.liv.controlefinanceiro.domain.GastoMes;
+import com.liv.controlefinanceiro.service.GastoMesService;
 import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
 
 @RestController
-@RequestMapping(value = "/tipogasto")
-public class TipoGastoResource {
+@RequestMapping(value = "/gastomes")
+public class GastoMesResource {
 	
 	@Autowired
-	TipoGastoService  tipoGastoService;
+	GastoMesService  gastoMesService;
 
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) throws CfObjectNotFoundException {
 		
-		TipoGasto tipoGasto = tipoGastoService.search(id);			
+		GastoMes tipoGasto = gastoMesService.search(id);			
 		return ResponseEntity.ok().body(tipoGasto);
-		
+
 	}
 
 }

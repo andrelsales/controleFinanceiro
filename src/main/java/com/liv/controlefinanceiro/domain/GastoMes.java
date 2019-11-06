@@ -1,6 +1,7 @@
 package com.liv.controlefinanceiro.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.liv.controlefinanceiro.domain.enums.TipoPagamentoEnum;
 
 @Entity
@@ -23,6 +24,10 @@ public class GastoMes implements Serializable {
 	private String nome;
 	private Integer mes;
 	private Integer ano;
+	private Date instanteCadastro;
+//	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern="dd/MM/yyyy")
+	private Date instanteCompra;
 	private double valor;
 	private Integer tipoPagamento;
 	private Integer parcela;
@@ -37,7 +42,7 @@ public class GastoMes implements Serializable {
 	}
 
 	public GastoMes(Integer id, String nome, Integer mes, Integer ano, double valor, TipoPagamentoEnum tipoPagamento, Integer parcela,
-			Integer totalParecela, TipoGasto tipoGasto) {
+			Integer totalParecela, TipoGasto tipoGasto,Date instanteCadastro, Date instanteCompra ) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -48,6 +53,8 @@ public class GastoMes implements Serializable {
 		this.parcela = parcela;
 		this.totalParecela = totalParecela;
 		this.tipoGasto = tipoGasto;
+		this.instanteCadastro = instanteCadastro;
+		this.instanteCompra = instanteCompra;
 	}
 
 	public Integer getId() {
@@ -145,6 +152,22 @@ public class GastoMes implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Date getInstanteCadastro() {
+		return instanteCadastro;
+	}
+
+	public void setInstanteCadastro(Date instanteCadastro) {
+		this.instanteCadastro = instanteCadastro;
+	}
+
+	public Date getInstanteCompra() {
+		return instanteCompra;
+	}
+
+	public void setInstanteCompra(Date instanteCompra) {
+		this.instanteCompra = instanteCompra;
 	}
 	
 	
