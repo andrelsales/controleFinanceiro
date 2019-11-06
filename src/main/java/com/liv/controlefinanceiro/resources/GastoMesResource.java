@@ -1,8 +1,5 @@
 package com.liv.controlefinanceiro.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +19,7 @@ public class GastoMesResource {
 	GastoMesService  gastoMesService;
 
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws CfObjectNotFoundException {
+	public ResponseEntity<GastoMes> find(@PathVariable Integer id) throws CfObjectNotFoundException {
 		
 		GastoMes tipoGasto = gastoMesService.search(id);			
 		return ResponseEntity.ok().body(tipoGasto);

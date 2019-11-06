@@ -27,5 +27,13 @@ public class TipoGastoService {
 		tipo.setId(null);
 		return tipoGastoRepository.save(tipo);
 	}
+
+	public TipoGasto update(TipoGasto tipo) throws CfObjectNotFoundException {
+		
+		search(tipo.getId());
+		return tipoGastoRepository.save(tipo);
+	}
+
+
 }
 

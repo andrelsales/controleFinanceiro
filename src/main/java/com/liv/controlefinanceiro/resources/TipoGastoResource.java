@@ -23,7 +23,7 @@ public class TipoGastoResource {
 	TipoGastoService tipoGastoService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws CfObjectNotFoundException {
+	public ResponseEntity<TipoGasto> find(@PathVariable Integer id) throws CfObjectNotFoundException {
 
 		TipoGasto tipoGasto = tipoGastoService.search(id);
 		return ResponseEntity.ok().body(tipoGasto);
@@ -36,4 +36,15 @@ public class TipoGastoResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();		
 	}
+	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public  ResponseEntity<Void> update(@RequestBody TipoGasto tipo, @PathVariable Integer id) throws CfObjectNotFoundException
+	{
+	
+		tipo = tipoGastoService.update(tipo);
+		return ResponseEntity.noContent().build();
+	
+	}
+	
 }
