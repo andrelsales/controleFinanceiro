@@ -30,7 +30,6 @@ public class TipoGasto implements Serializable {
 	@OneToMany(mappedBy="tipoGasto")
 	private List<GastoMes> gastosmes = new ArrayList<GastoMes>();
 	
-
 	
 	public TipoGasto() {
 		

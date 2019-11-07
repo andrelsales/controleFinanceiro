@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
 import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
 
 @ControllerAdvice
@@ -19,4 +20,11 @@ public class ResourcesExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
 
+	@ExceptionHandler(CfDataIntegrityException.class)
+	public ResponseEntity<StantardError> dataIntegrity(CfDataIntegrityException e, HttpServletRequest http)
+	{
+		StantardError erro = new StantardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+		
+	}
 }
