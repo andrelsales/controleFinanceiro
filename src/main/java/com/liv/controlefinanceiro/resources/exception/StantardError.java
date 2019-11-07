@@ -9,6 +9,7 @@ public class StantardError implements Serializable{
 	private Integer status;
 	private String mgs;
 	private Long timeStamp;
+	
 	public Integer getStatus() {
 		return status;
 	}

@@ -9,11 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.websocket.ClientEndpoint;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.liv.controlefinanceiro.service.validation.TipoGastoInsert;
 
 @Entity
+@TipoGastoInsert
 public class TipoGasto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +29,8 @@ public class TipoGasto implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message="preenchimento obrigatório")
+	@Length(min=3 , max=40, message="tamanho minimo 3, máximo 40")
 	private String nome;
 	private Boolean obrigatorio;
 	
