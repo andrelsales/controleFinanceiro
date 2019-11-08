@@ -75,5 +75,7 @@ public class TipoGastoResource {
 		Page<TipoGasto> listaTipoGasto = tipoGastoService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
 		return ResponseEntity.ok().body(listaTipoGasto);
 	}
+	
+	
 
 }

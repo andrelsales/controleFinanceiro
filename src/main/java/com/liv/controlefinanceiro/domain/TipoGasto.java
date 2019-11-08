@@ -107,6 +107,21 @@ public class TipoGasto implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TipoGasto [id=");
+		builder.append(id);
+		builder.append(", nome=");
+		builder.append(nome);
+		builder.append(", obrigatorio=");
+		builder.append(obrigatorio);
+		builder.append(", gastosmes=");
+		builder.append(gastosmes);
+		builder.append("]");
+		return builder.toString();
+	}
+
 
 	
 }
