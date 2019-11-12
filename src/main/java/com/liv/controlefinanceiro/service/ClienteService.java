@@ -10,59 +10,59 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.liv.controlefinanceiro.domain.TipoGasto;
-import com.liv.controlefinanceiro.repository.TipoGastoRepository;
+import com.liv.controlefinanceiro.domain.Cliente;
+import com.liv.controlefinanceiro.repository.ClienteRepository;
 import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
 import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
 
 @Service
-public class TipoGastoService {
+public class ClienteService {
 
 	@Autowired
-	TipoGastoRepository tipoGastoRepository;
+	ClienteRepository clienteRepository;
 	
 	@Autowired
 	private EmailService emailService;
 
-	public List<TipoGasto> searchAll() {
-		return tipoGastoRepository.findAll();
+	public List<Cliente> searchAll() {
+		return clienteRepository.findAll();
 	}
 
-	public TipoGasto search(Integer id) throws CfObjectNotFoundException {
-		Optional<TipoGasto> obj = tipoGastoRepository.findById(id);
+	public Cliente search(Integer id) throws CfObjectNotFoundException {
+		Optional<Cliente> obj = clienteRepository.findById(id);
 		return obj.orElseThrow(() -> new CfObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + TipoGasto.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
-	public TipoGasto insert(TipoGasto tipo) {
+	public Cliente insert(Cliente tipo) {
 
 		tipo.setId(null);
-		tipo = tipoGastoRepository.save(tipo);
-//		emailService.envioCadastroTipoGasto(tipo);
-		emailService.envioCadastroTipoGastoHtmlEmail(tipo);
+		tipo = clienteRepository.save(tipo);
+//		emailService.envioCadastroCliente(tipo);
+//		emailService.envioCadastroClienteHtmlEmail(tipo);
 		return tipo;
 		
 	}
 
-	public TipoGasto update(TipoGasto tipo) throws CfObjectNotFoundException {
+	public Cliente update(Cliente tipo) throws CfObjectNotFoundException {
 
 		search(tipo.getId());
-		return tipoGastoRepository.save(tipo);
+		return clienteRepository.save(tipo);
 	}
 
 	public void delete(Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
 		search(id);
 		try {
-			tipoGastoRepository.deleteById(id);
+			clienteRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new CfDataIntegrityException("Não é possivel excluir um tipo de gasto que já foi usado");
 		}
 
 	}
 
-	public Page<TipoGasto> findPage(Integer pagina, Integer linhasPorPagina, String ordernarPor, String direcao) {
+	public Page<Cliente> findPage(Integer pagina, Integer linhasPorPagina, String ordernarPor, String direcao) {
 		PageRequest page = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordernarPor);
-		return tipoGastoRepository.findAll(page);
+		return clienteRepository.findAll(page);
 
 	}
 

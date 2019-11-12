@@ -6,11 +6,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.domain.GastoMes;
 import com.liv.controlefinanceiro.domain.TipoGasto;
+import com.liv.controlefinanceiro.domain.enums.PerfilEnum;
 import com.liv.controlefinanceiro.domain.enums.TipoPagamentoEnum;
+import com.liv.controlefinanceiro.repository.ClienteRepository;
 import com.liv.controlefinanceiro.repository.GastoMesRepository;
 import com.liv.controlefinanceiro.repository.TipoGastoRepository;
 
@@ -22,6 +26,12 @@ public class DbService {
 	
 	@Autowired
 	GastoMesRepository gastoMesRepository;
+	
+	@Autowired
+	ClienteRepository clienteRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	public void instantiateTesteDataBase() throws ParseException
 	{
@@ -49,10 +59,15 @@ public class DbService {
 		GastoMes gt6 = new GastoMes(null,"tenis",11,2018,100,TipoPagamentoEnum.CARTAO_PARCELADO,2,3, tipo3,new Date(),sdf.parse("20/09/2018 10:32"));
 		GastoMes gt7 = new GastoMes(null,"tenis",12,2018,100,TipoPagamentoEnum.CARTAO_PARCELADO,3,3, tipo3,new Date(),sdf.parse("20/09/2018 10:32"));
 		
-				
+		Cliente c1 = new Cliente(null, "kamila", "andrelsales@gmail.com", "33311083830", pe.encode("111"));
+		Cliente c2 = new Cliente(null, "andre","andre.sales@serpro.gov.br", "045347779682",  pe.encode("333"));
+		c2.addPerfil(PerfilEnum.ADMIN);	
+		
 		tipoGastoRepository.saveAll(Arrays.asList(tipo1,tipo2,tipo3,tipo4,tipo5,tipo6,tipo7,tipo8));
 		
 		gastoMesRepository.saveAll(Arrays.asList(gt1,gt2,gt3,gt4,gt5,gt6,gt7));
+		
+		clienteRepository.saveAll(Arrays.asList(c1,c2));
 				
 	}
 

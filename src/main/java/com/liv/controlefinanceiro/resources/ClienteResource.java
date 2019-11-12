@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,66 +16,64 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.liv.controlefinanceiro.domain.TipoGasto;
-import com.liv.controlefinanceiro.service.TipoGastoService;
+import com.liv.controlefinanceiro.domain.Cliente;
+import com.liv.controlefinanceiro.service.ClienteService;
 import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
 import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
 
 @RestController
-@RequestMapping(value = "/tipogasto")
-public class TipoGastoResource {
+@RequestMapping(value = "/cliente")
+public class ClienteResource {
 
 	@Autowired
-	TipoGastoService tipoGastoService;
+	ClienteService clienteService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<TipoGasto> find(@PathVariable Integer id) throws CfObjectNotFoundException {
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws CfObjectNotFoundException {
 
-		TipoGasto tipoGasto = tipoGastoService.search(id);
-		return ResponseEntity.ok().body(tipoGasto);
+		Cliente cliente = clienteService.search(id);
+		return ResponseEntity.ok().body(cliente);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody TipoGasto tipo) {
-		TipoGasto obj = tipoGastoService.insert(tipo);
+	public ResponseEntity<Void> insert(@Valid @RequestBody Cliente tipo) {
+		Cliente obj = clienteService.insert(tipo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody TipoGasto tipo, @PathVariable Integer id)
+	public ResponseEntity<Void> update(@Valid @RequestBody Cliente tipo, @PathVariable Integer id)
 			throws CfObjectNotFoundException {
 
-		tipo = tipoGastoService.update(tipo);
+		tipo = clienteService.update(tipo);
 		return ResponseEntity.noContent().build();
 
 	}
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
 
-		tipoGastoService.delete(id);
+		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping( method = RequestMethod.GET)
-	public ResponseEntity<List<TipoGasto>> findAll() throws CfObjectNotFoundException {
+	public ResponseEntity<List<Cliente>> findAll() throws CfObjectNotFoundException {
 
-		List<TipoGasto> listaTipoGasto = tipoGastoService.searchAll();
-		return ResponseEntity.ok().body(listaTipoGasto);
+		List<Cliente> listaCliente = clienteService.searchAll();
+		return ResponseEntity.ok().body(listaCliente);
 	}
 	
 	@RequestMapping(value= "/page" ,method = RequestMethod.GET)
-	public ResponseEntity<Page<TipoGasto>> findPage(
+	public ResponseEntity<Page<Cliente>> findPage(
 			@RequestParam(value="pagina" , defaultValue="0") Integer pagina, 
 			@RequestParam(value="linhasPorPagina" , defaultValue="24") Integer linhasPorPagina, 
 			@RequestParam(value="ordernarPor" , defaultValue="nome") String ordernarPor, 
 			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CfObjectNotFoundException {
 
-		Page<TipoGasto> listaTipoGasto = tipoGastoService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
-		return ResponseEntity.ok().body(listaTipoGasto);
+		Page<Cliente> listaCliente = clienteService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
+		return ResponseEntity.ok().body(listaCliente);
 	}
 	
 	
