@@ -1,5 +1,6 @@
 package com.liv.controlefinanceiro.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.domain.enums.PerfilEnum;
@@ -26,6 +28,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	public List<Cliente> searchAll() {
 		return clienteRepository.findAll();
@@ -79,6 +84,12 @@ public class ClienteService {
 		PageRequest page = PageRequest.of(pagina, linhasPorPagina, Direction.valueOf(direcao), ordernarPor);
 		return clienteRepository.findAll(page);
 
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile)
+	{
+		return s3Service.uploadFile(multipartFile);
+		
 	}
 
 }

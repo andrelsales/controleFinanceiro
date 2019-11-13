@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/login/**"};
 	
 	private static final String[] caminho_public_post= { 
-			"/cliente/**",
+			"/cliente/",
+			"/cliente/picture",
 			"/auth/forgot"
 	};
 
