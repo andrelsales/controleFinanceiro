@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.liv.controlefinanceiro.domain.TipoGasto;
 import com.liv.controlefinanceiro.repository.TipoGastoRepository;
-import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
-import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
+import com.liv.controlefinanceiro.service.exceptions.CFDataIntegrityException;
+import com.liv.controlefinanceiro.service.exceptions.CFObjectNotFoundException;
 
 @Service
 public class TipoGastoService {
@@ -28,9 +28,9 @@ public class TipoGastoService {
 		return tipoGastoRepository.findAll();
 	}
 
-	public TipoGasto search(Integer id) throws CfObjectNotFoundException {
+	public TipoGasto search(Integer id) throws CFObjectNotFoundException {
 		Optional<TipoGasto> obj = tipoGastoRepository.findById(id);
-		return obj.orElseThrow(() -> new CfObjectNotFoundException(
+		return obj.orElseThrow(() -> new CFObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + TipoGasto.class.getName()));
 	}
 
@@ -44,18 +44,18 @@ public class TipoGastoService {
 		
 	}
 
-	public TipoGasto update(TipoGasto tipo) throws CfObjectNotFoundException {
+	public TipoGasto update(TipoGasto tipo) throws CFObjectNotFoundException {
 
 		search(tipo.getId());
 		return tipoGastoRepository.save(tipo);
 	}
 
-	public void delete(Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
+	public void delete(Integer id) throws CFObjectNotFoundException, CFDataIntegrityException {
 		search(id);
 		try {
 			tipoGastoRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new CfDataIntegrityException("Não é possivel excluir um tipo de gasto que já foi usado");
+			throw new CFDataIntegrityException("Não é possivel excluir um tipo de gasto que já foi usado");
 		}
 
 	}

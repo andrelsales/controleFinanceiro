@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.domain.TipoGasto;
 
 public abstract class AbstractEmailService implements EmailService{
@@ -37,8 +38,7 @@ public abstract class AbstractEmailService implements EmailService{
 	
 	@Override
 	public void envioCadastroTipoGastoHtmlEmail(TipoGasto tipoGasto)
-	{
-		
+	{		
 		MimeMessage mm;
 		try {
 			mm = prepareMimeMessageFromTipoGasto(tipoGasto);
@@ -46,9 +46,7 @@ public abstract class AbstractEmailService implements EmailService{
 		} catch (MessagingException e) {
 			envioCadastroTipoGasto(tipoGasto);
 			e.printStackTrace();
-		}	
-		
-		
+		}		
 	}
 
 	protected MimeMessage prepareMimeMessageFromTipoGasto(TipoGasto tipoGasto) throws MessagingException {
@@ -82,4 +80,24 @@ public abstract class AbstractEmailService implements EmailService{
 		context.setVariable("tipo", tipoGasto);
 		return templateEngine.process("email/confirmacaoTipoGasto", context);		
 	}
+	
+	@Override
+	public void sendEmailComNovaSenha(Cliente cliente, String novaSenha)
+	{
+		SimpleMailMessage smm =  prepareEmailNovaSenha(cliente, novaSenha);	
+		envioEmail(smm);
+		
+	}
+
+	protected SimpleMailMessage prepareEmailNovaSenha(Cliente cliente, String novaSenha) {
+		
+		SimpleMailMessage smm = new SimpleMailMessage();
+		smm.setTo(cliente.getEmail());
+		smm.setFrom(sender);
+		smm.setSubject("Solicitação de nova senha");
+		smm.setSentDate(new Date(System.currentTimeMillis()));
+		smm.setText("Nova senha : " + novaSenha);
+		return smm;
+	}
+	
 }

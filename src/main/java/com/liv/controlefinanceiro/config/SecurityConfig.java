@@ -40,9 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] caminho_public = { "/h2-console/**" };
 	
 	private static final String[] caminho_public_get = { 
-			"/tipogasto/**",
+			"/tipogasto/**",			
+			"/login/**"};
+	
+	private static final String[] caminho_public_post= { 
 			"/cliente/**",
-			"/login/**",};
+			"/auth/forgot"
+	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -52,7 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		http.cors().and().csrf().disable();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, caminho_public_get).authenticated()
+		http.authorizeRequests()
+		.antMatchers(HttpMethod.POST, caminho_public_post).permitAll()
+		.antMatchers(HttpMethod.GET, caminho_public_get).authenticated()
 		.antMatchers(caminho_public).permitAll().anyRequest().authenticated();
 
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));

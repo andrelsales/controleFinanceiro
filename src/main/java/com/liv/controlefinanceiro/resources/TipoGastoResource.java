@@ -19,8 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.liv.controlefinanceiro.domain.TipoGasto;
 import com.liv.controlefinanceiro.service.TipoGastoService;
-import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
-import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
+import com.liv.controlefinanceiro.service.exceptions.CFDataIntegrityException;
+import com.liv.controlefinanceiro.service.exceptions.CFObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/tipogasto")
@@ -30,7 +30,7 @@ public class TipoGastoResource {
 	TipoGastoService tipoGastoService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<TipoGasto> find(@PathVariable Integer id) throws CfObjectNotFoundException {
+	public ResponseEntity<TipoGasto> find(@PathVariable Integer id) throws CFObjectNotFoundException {
 
 		TipoGasto tipoGasto = tipoGastoService.search(id);
 		return ResponseEntity.ok().body(tipoGasto);
@@ -47,7 +47,7 @@ public class TipoGastoResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody TipoGasto tipo, @PathVariable Integer id)
-			throws CfObjectNotFoundException {
+			throws CFObjectNotFoundException {
 
 		tipo = tipoGastoService.update(tipo);
 		return ResponseEntity.noContent().build();
@@ -55,14 +55,14 @@ public class TipoGastoResource {
 	}
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
+	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CFObjectNotFoundException, CFDataIntegrityException {
 
 		tipoGastoService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping( method = RequestMethod.GET)
-	public ResponseEntity<List<TipoGasto>> findAll() throws CfObjectNotFoundException {
+	public ResponseEntity<List<TipoGasto>> findAll() throws CFObjectNotFoundException {
 
 		List<TipoGasto> listaTipoGasto = tipoGastoService.searchAll();
 		return ResponseEntity.ok().body(listaTipoGasto);
@@ -73,7 +73,7 @@ public class TipoGastoResource {
 			@RequestParam(value="pagina" , defaultValue="0") Integer pagina, 
 			@RequestParam(value="linhasPorPagina" , defaultValue="24") Integer linhasPorPagina, 
 			@RequestParam(value="ordernarPor" , defaultValue="nome") String ordernarPor, 
-			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CfObjectNotFoundException {
+			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CFObjectNotFoundException {
 
 		Page<TipoGasto> listaTipoGasto = tipoGastoService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
 		return ResponseEntity.ok().body(listaTipoGasto);

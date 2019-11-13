@@ -18,8 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.service.ClienteService;
-import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
-import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
+import com.liv.controlefinanceiro.service.exceptions.CFDataIntegrityException;
+import com.liv.controlefinanceiro.service.exceptions.CFObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/cliente")
@@ -29,9 +29,9 @@ public class ClienteResource {
 	ClienteService clienteService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws CfObjectNotFoundException {
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws CFObjectNotFoundException {
 
-		Cliente cliente = clienteService.search(id);
+		Cliente cliente = clienteService.find(id);
 		return ResponseEntity.ok().body(cliente);
 	}
 
@@ -44,7 +44,7 @@ public class ClienteResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Cliente tipo, @PathVariable Integer id)
-			throws CfObjectNotFoundException {
+			throws CFObjectNotFoundException {
 
 		tipo = clienteService.update(tipo);
 		return ResponseEntity.noContent().build();
@@ -52,14 +52,14 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
+	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CFObjectNotFoundException, CFDataIntegrityException {
 
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping( method = RequestMethod.GET)
-	public ResponseEntity<List<Cliente>> findAll() throws CfObjectNotFoundException {
+	public ResponseEntity<List<Cliente>> findAll() throws CFObjectNotFoundException {
 
 		List<Cliente> listaCliente = clienteService.searchAll();
 		return ResponseEntity.ok().body(listaCliente);
@@ -70,7 +70,7 @@ public class ClienteResource {
 			@RequestParam(value="pagina" , defaultValue="0") Integer pagina, 
 			@RequestParam(value="linhasPorPagina" , defaultValue="24") Integer linhasPorPagina, 
 			@RequestParam(value="ordernarPor" , defaultValue="nome") String ordernarPor, 
-			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CfObjectNotFoundException {
+			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CFObjectNotFoundException {
 
 		Page<Cliente> listaCliente = clienteService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
 		return ResponseEntity.ok().body(listaCliente);

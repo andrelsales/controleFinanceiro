@@ -4,6 +4,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.SimpleMailMessage;
 
+import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.domain.TipoGasto;
 
 public interface EmailService {
@@ -15,4 +16,8 @@ public interface EmailService {
 	void envioCadastroTipoGastoHtmlEmail(TipoGasto tipoGasto);
 	
 	void envioHtmlEmail(MimeMessage msg);
+	
+	void sendEmailComNovaSenha(Cliente cliente, String newPass);
+	
+	
 }

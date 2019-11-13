@@ -11,9 +11,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.liv.controlefinanceiro.domain.Cliente;
+import com.liv.controlefinanceiro.domain.enums.PerfilEnum;
 import com.liv.controlefinanceiro.repository.ClienteRepository;
-import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
-import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
+import com.liv.controlefinanceiro.security.UserSS;
+import com.liv.controlefinanceiro.service.exceptions.CFAuthorizationException;
+import com.liv.controlefinanceiro.service.exceptions.CFDataIntegrityException;
+import com.liv.controlefinanceiro.service.exceptions.CFObjectNotFoundException;
 
 @Service
 public class ClienteService {
@@ -28,9 +31,9 @@ public class ClienteService {
 		return clienteRepository.findAll();
 	}
 
-	public Cliente search(Integer id) throws CfObjectNotFoundException {
+	public Cliente search(Integer id) throws CFObjectNotFoundException {
 		Optional<Cliente> obj = clienteRepository.findById(id);
-		return obj.orElseThrow(() -> new CfObjectNotFoundException(
+		return obj.orElseThrow(() -> new CFObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
@@ -43,19 +46,31 @@ public class ClienteService {
 		return tipo;
 		
 	}
+	
+	public Cliente find(Integer id) throws CFObjectNotFoundException {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(PerfilEnum.ADMIN) && !id.equals(user.getId())) {
+			throw new CFAuthorizationException("Acesso negado");
+		}
+		
+		Optional<Cliente> obj = clienteRepository.findById(id);
+		return obj.orElseThrow(() -> new CFObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+}
 
-	public Cliente update(Cliente tipo) throws CfObjectNotFoundException {
+	public Cliente update(Cliente tipo) throws CFObjectNotFoundException {
 
 		search(tipo.getId());
 		return clienteRepository.save(tipo);
 	}
 
-	public void delete(Integer id) throws CfObjectNotFoundException, CfDataIntegrityException {
+	public void delete(Integer id) throws CFObjectNotFoundException, CFDataIntegrityException {
 		search(id);
 		try {
 			clienteRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new CfDataIntegrityException("Não é possivel excluir um tipo de gasto que já foi usado");
+			throw new CFDataIntegrityException("Não é possivel excluir um tipo de gasto que já foi usado");
 		}
 
 	}

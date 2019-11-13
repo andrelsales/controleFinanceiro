@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.liv.controlefinanceiro.domain.enums.PerfilEnum;
 
 public class UserSS implements UserDetails {
-	
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
@@ -20,37 +19,37 @@ public class UserSS implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserSS() {
-		
+
 	}
-	
+
 	public UserSS(Integer id, String nome, String senha, Set<PerfilEnum> perfis) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.senha = senha;		
-	    this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
+		this.senha = senha;
+		this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao()))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		return authorities;
 	}
-	
-	public Integer getId()
-	{
+
+	public Integer getId() {
 		return id;
 	}
 
 	@Override
 	public String getPassword() {
-		
+
 		return senha;
 	}
 
 	@Override
 	public String getUsername() {
-	
+
 		return nome;
 	}
 
@@ -76,6 +75,11 @@ public class UserSS implements UserDetails {
 	public boolean isEnabled() {
 
 		return true;
+	}
+
+	public boolean hasRole(PerfilEnum perfil) {
+
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
 	}
 
 }

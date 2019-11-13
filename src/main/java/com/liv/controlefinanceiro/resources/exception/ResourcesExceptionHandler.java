@@ -9,21 +9,22 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.liv.controlefinanceiro.service.exceptions.CfDataIntegrityException;
-import com.liv.controlefinanceiro.service.exceptions.CfObjectNotFoundException;
+import com.liv.controlefinanceiro.service.exceptions.CFAuthorizationException;
+import com.liv.controlefinanceiro.service.exceptions.CFDataIntegrityException;
+import com.liv.controlefinanceiro.service.exceptions.CFObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourcesExceptionHandler {
 
-	@ExceptionHandler(CfObjectNotFoundException.class)
-	public ResponseEntity<StantardError> cpObjectNotFound(CfObjectNotFoundException e, HttpServletRequest request) {
+	@ExceptionHandler(CFObjectNotFoundException.class)
+	public ResponseEntity<StantardError> cpObjectNotFound(CFObjectNotFoundException e, HttpServletRequest request) {
 
 		StantardError erro = new StantardError(HttpStatus.NOT_FOUND.value(),e.getMessage(),System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
 
-	@ExceptionHandler(CfDataIntegrityException.class)
-	public ResponseEntity<StantardError> dataIntegrity(CfDataIntegrityException e, HttpServletRequest http)
+	@ExceptionHandler(CFDataIntegrityException.class)
+	public ResponseEntity<StantardError> dataIntegrity(CFDataIntegrityException e, HttpServletRequest http)
 	{
 		StantardError erro = new StantardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
@@ -39,6 +40,13 @@ public class ResourcesExceptionHandler {
 			erro.addError(x.getField(),x.getDefaultMessage());
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);		
+	}
+	
+	@ExceptionHandler(CFAuthorizationException.class)
+	public ResponseEntity<StantardError> Authorization(CFAuthorizationException e, HttpServletRequest request) {
+
+		StantardError erro = new StantardError(HttpStatus.FORBIDDEN.value(),e.getMessage(),System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erro);
 	}
 	
 	
