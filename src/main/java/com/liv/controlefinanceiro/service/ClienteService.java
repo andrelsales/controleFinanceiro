@@ -1,10 +1,12 @@
 package com.liv.controlefinanceiro.service;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,15 @@ public class ClienteService {
 	
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Value("${img.prefix.client.profile}")
+	private String prefixo;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	public List<Cliente> searchAll() {
 		return clienteRepository.findAll();
@@ -93,12 +104,20 @@ public class ClienteService {
 		if (user==null) {
 			throw new CFAuthorizationException("Acesso negado");
 		}
-		URI uri =  s3Service.uploadFile(multipartFile);
+		BufferedImage jpImage = imageService.getJpgImageFromFile(multipartFile);
 		
-		Optional<Cliente> cli = clienteRepository.findById(user.getId());
-		cli.get().setImageURL(uri.toString());
-		clienteRepository.save(cli.get());		
-		return uri;
+		jpImage = imageService.cropSquare(jpImage);
+		jpImage = imageService.resize(jpImage, size);
+		String FileName = prefixo + user.getId() + ".jpg";
+		
+		return s3Service.uploadFile(imageService.getInputStream(jpImage, "jpg"), FileName, "image");
+		
+//		URI uri =  s3Service.uploadFile(multipartFile);
+//		
+//		Optional<Cliente> cli = clienteRepository.findById(user.getId());
+//		cli.get().setImageURL(uri.toString());
+//		clienteRepository.save(cli.get());		
+//		return uri;
 		
 	}
 
