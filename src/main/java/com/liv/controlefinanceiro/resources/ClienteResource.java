@@ -37,13 +37,19 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(cliente);
 	}
 
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value = "value") String email) {
+		Cliente obj = clienteService.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Cliente tipo) {
 		Cliente obj = clienteService.insert(tipo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Cliente tipo, @PathVariable Integer id)
 			throws CFObjectNotFoundException {
@@ -52,35 +58,35 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Integer id) throws CFObjectNotFoundException, CFDataIntegrityException {
+	public ResponseEntity<Void> delete(@PathVariable Integer id)
+			throws CFObjectNotFoundException, CFDataIntegrityException {
 
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@RequestMapping( method = RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Cliente>> findAll() throws CFObjectNotFoundException {
 
 		List<Cliente> listaCliente = clienteService.searchAll();
 		return ResponseEntity.ok().body(listaCliente);
 	}
-	
-	@RequestMapping(value= "/page" ,method = RequestMethod.GET)
-	public ResponseEntity<Page<Cliente>> findPage(
-			@RequestParam(value="pagina" , defaultValue="0") Integer pagina, 
-			@RequestParam(value="linhasPorPagina" , defaultValue="24") Integer linhasPorPagina, 
-			@RequestParam(value="ordernarPor" , defaultValue="nome") String ordernarPor, 
-			@RequestParam(value="direcao" , defaultValue="ASC") String direcao) throws CFObjectNotFoundException {
+
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<Cliente>> findPage(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+			@RequestParam(value = "linhasPorPagina", defaultValue = "24") Integer linhasPorPagina,
+			@RequestParam(value = "ordernarPor", defaultValue = "nome") String ordernarPor,
+			@RequestParam(value = "direcao", defaultValue = "ASC") String direcao) throws CFObjectNotFoundException {
 
 		Page<Cliente> listaCliente = clienteService.findPage(pagina, linhasPorPagina, ordernarPor, direcao);
 		return ResponseEntity.ok().body(listaCliente);
-	}	
-	
-	@RequestMapping(value="/picture", method=RequestMethod.POST)
-	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name="file") MultipartFile file) {
-		URI uri = clienteService.uploadProfilePicture(file);		
+	}
+
+	@RequestMapping(value = "/picture", method = RequestMethod.POST)
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = clienteService.uploadProfilePicture(file);
 		return ResponseEntity.created(uri).build();
 	}
 

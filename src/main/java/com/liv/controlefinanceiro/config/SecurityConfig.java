@@ -30,23 +30,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	Environment environment;
-	
+
 	@Autowired
 	private JWTUtil jwtUtil;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
 	private static final String[] caminho_public = { "/h2-console/**" };
-	
-	private static final String[] caminho_public_get = { 
-			"/tipogasto/**",			
-			"/login/**"};
-	
-	private static final String[] caminho_public_post= { 
-			"/cliente/",		
-			"/auth/forgot"
-	};
+
+	private static final String[] caminho_public_get = { "/tipogasto/**", "/login/**" };
+
+	private static final String[] caminho_public_post = { "/cliente/", "/auth/forgot" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -56,22 +51,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		http.cors().and().csrf().disable();
-		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, caminho_public_post).permitAll()
-		.antMatchers(HttpMethod.GET, caminho_public_get).authenticated()
-		.antMatchers(caminho_public).permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, caminho_public_post).permitAll()
+				.antMatchers(HttpMethod.GET, caminho_public_get).authenticated().antMatchers(caminho_public).permitAll()
+				.anyRequest().authenticated();
 
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-}
-	
+	}
+
 //	@Override
 //	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		auth.userDetailsService(userDetailsService);
@@ -79,13 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-	
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-}
+	}
 }

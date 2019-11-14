@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.applicationautoscaling.model.ObjectNotFoundException;
 import com.liv.controlefinanceiro.domain.Cliente;
 import com.liv.controlefinanceiro.domain.enums.PerfilEnum;
 import com.liv.controlefinanceiro.repository.ClienteRepository;
@@ -52,6 +53,19 @@ public class ClienteService {
 		return obj.orElseThrow(() -> new CFObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(PerfilEnum.ADMIN) && !email.equals(user.getUsername())) {
+			throw new CFAuthorizationException("Acesso negado");
+		}
+	
+		Cliente obj = clienteRepository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Cliente.class.getName());
+		}
+		return obj;
+}
 
 	public Cliente insert(Cliente tipo) {
 
@@ -112,8 +126,7 @@ public class ClienteService {
 		
 		return s3Service.uploadFile(imageService.getInputStream(jpImage, "jpg"), FileName, "image");
 		
-//		URI uri =  s3Service.uploadFile(multipartFile);
-//		
+//		URI uri =  s3Service.uploadFile(multipartFile);//		
 //		Optional<Cliente> cli = clienteRepository.findById(user.getId());
 //		cli.get().setImageURL(uri.toString());
 //		clienteRepository.save(cli.get());		

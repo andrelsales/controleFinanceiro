@@ -2,39 +2,23 @@ package com.liv.controlefinanceiro.resources.exception;
 
 import java.io.Serializable;
 
-public class StantardError implements Serializable{
-	
+public class StantardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private Long timestamp;
 	private Integer status;
-	private String mgs;
-	private Long timeStamp;
-	
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getMgs() {
-		return mgs;
-	}
-	public void setMgs(String mgs) {
-		this.mgs = mgs;
-	}
-	public Long getTimeStamp() {
-		return timeStamp;
-	}
-	public void setTimeStamp(Long timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-	public StantardError(Integer status, String mgs, Long timeStamp) {
+	private String error;
+	private String message;
+	private String path;
+
+	public StantardError(Long timestamp, Integer status, String error, String message, String path) {
 		super();
+		this.timestamp = timestamp;
 		this.status = status;
-		this.mgs = mgs;
-		this.timeStamp = timeStamp;
+		this.error = error;
+		this.message = message;
+		this.path = path;
 	}
-	
-	
 
 }
