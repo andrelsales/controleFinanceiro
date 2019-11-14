@@ -47,6 +47,42 @@ public class DbService {
 		TipoGasto tipo7 = new TipoGasto(null,"esporte",true);
 		TipoGasto tipo8 = new TipoGasto(null,"vestuário",true);
 		
+		TipoGasto tipo9 = new TipoGasto(null,"casa",true);
+		TipoGasto tipo10 = new TipoGasto(null,"alimentacao",true);
+		TipoGasto tipo11 = new TipoGasto(null,"diversão",false);		
+		TipoGasto tipo12 = new TipoGasto(null,"carro",true);
+		TipoGasto tipo13 = new TipoGasto(null,"saude",true);
+		TipoGasto tipo14 = new TipoGasto(null,"cachorro",false);		
+		TipoGasto tipo15 = new TipoGasto(null,"esporte",true);
+		TipoGasto tipo16 = new TipoGasto(null,"vestuário",true);
+		TipoGasto tipo17 = new TipoGasto(null,"casa",true);
+		TipoGasto tipo18 = new TipoGasto(null,"alimentacao",true);
+		TipoGasto tipo19 = new TipoGasto(null,"diversão",false);		
+		TipoGasto tipo20 = new TipoGasto(null,"carro",true);
+		TipoGasto tipo21 = new TipoGasto(null,"saude",true);
+		TipoGasto tipo22 = new TipoGasto(null,"cachorro",false);		
+		TipoGasto tipo23 = new TipoGasto(null,"esporte",true);
+		TipoGasto tipo24 = new TipoGasto(null,"vestuário",true);
+		
+		TipoGasto tipo25 = new TipoGasto(null,"casa",true);
+		TipoGasto tipo26 = new TipoGasto(null,"alimentacao",true);
+		TipoGasto tipo27 = new TipoGasto(null,"diversão",false);		
+		TipoGasto tipo28 = new TipoGasto(null,"carro",true);
+		TipoGasto tipo29 = new TipoGasto(null,"saude",true);
+		TipoGasto tipo30 = new TipoGasto(null,"cachorro",false);		
+		TipoGasto tipo31 = new TipoGasto(null,"esporte",true);
+		TipoGasto tipo32 = new TipoGasto(null,"vestuário",true);
+		
+		TipoGasto tipo33 = new TipoGasto(null,"casa",true);
+		TipoGasto tipo34 = new TipoGasto(null,"alimentacao",true);
+		TipoGasto tipo35 = new TipoGasto(null,"diversão",false);		
+		TipoGasto tipo36 = new TipoGasto(null,"carro",true);
+		TipoGasto tipo37 = new TipoGasto(null,"saude",true);
+		TipoGasto tipo38 = new TipoGasto(null,"cachorro",false);		
+		TipoGasto tipo39 = new TipoGasto(null,"esporte",true);
+		TipoGasto tipo40 = new TipoGasto(null,"vestuário",true);
+		
+		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");		
 		
@@ -63,7 +99,8 @@ public class DbService {
 		Cliente c2 = new Cliente(null, "andre","andre.sales@serpro.gov.br", "045347779682",  pe.encode("123"));
 		c2.addPerfil(PerfilEnum.ADMIN);	
 		
-		tipoGastoRepository.saveAll(Arrays.asList(tipo1,tipo2,tipo3,tipo4,tipo5,tipo6,tipo7,tipo8));
+		tipoGastoRepository.saveAll(Arrays.asList(tipo1,tipo2,tipo3,tipo4,tipo5,tipo6,tipo7,tipo8,tipo9,tipo10,tipo11,tipo12
+				,tipo13,tipo14,tipo15,tipo16,tipo17,tipo18,tipo19,tipo20,tipo21,tipo22,tipo23,tipo24,tipo25,tipo26));
 		
 		gastoMesRepository.saveAll(Arrays.asList(gt1,gt2,gt3,gt4,gt5,gt6,gt7));
 		
